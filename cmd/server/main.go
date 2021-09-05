@@ -1,29 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"net/url"
+	"github.com/jaybekster/go-musthave-devops/internal/server"
+	"github.com/jaybekster/go-musthave-devops/internal/store"
 )
 
-func mainHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "POST":
-		m, _ := url.ParseQuery(r.URL.RawQuery)
-
-		metricId := m["id"]
-		metricType := m["type"]
-		metricValue := m["value"]
-
-		fmt.Println(metricId, metricType, metricValue)
-	default:
-		fmt.Fprintf(w, "Sorry, only POST methods are supported.")
-	}
-}
-
 func main() {
-	http.HandleFunc("/", mainHandler)
+	store := store.NewStore()
+	srv := server.NewServer(store)
 
-	log.Fatal(http.ListenAndServe(":8880", nil))
+	srv.Serve()
 }

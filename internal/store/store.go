@@ -9,7 +9,7 @@ type Store struct {
 	data []map[string]interface{}
 }
 
-func (s *Store) save(data interface{}) interface{} {
+func (s *Store) Save(data interface{}) interface{} {
 	item := make(map[string]interface{})
 
 	key := strconv.FormatInt(time.Now().Unix(), 10)
@@ -21,6 +21,12 @@ func (s *Store) save(data interface{}) interface{} {
 	return item[key]
 }
 
-func (s *Store) get() []map[string]interface{} {
+func (s *Store) Get() []map[string]interface{} {
 	return s.data
+}
+
+func NewStore() *Store {
+	return &Store{
+		data: make([]map[string]interface{}, 0),
+	}
 }
